@@ -3,6 +3,7 @@ import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import './App.css';
+import axios from "axios";
 
 class App extends Component {
   constructor() {
@@ -13,10 +14,16 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response=> response.json())
-      .then(users => {this.setState({ robots: users})});
+  // old method using fetch and .then() to get response from server
+  // componentDidMount() {
+  //   fetch ('https://jsonplaceholder.typicode.com/users')
+  //   .then(response=> response.json())
+  //   .then(users => this.setState({robots: users}))
+  // }
+
+  async componentDidMount() {
+    const {data:robots} = await axios.get('https://jsonplaceholder.typicode.com/users')
+      this.setState( {robots});
   }
 
   onSearchChange = (event) => {
